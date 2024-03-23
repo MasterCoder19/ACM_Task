@@ -32,3 +32,7 @@ Use the testing data to evaluate the performance of both models. Metrics like ac
 7. Comparison and Interpretation:
 
 Compare the performance of Logistic Regression and the ANN model based on the chosen evaluation metrics. Analyze which model performs better for this specific classification task.
+
+Links: 1. https://youtu.be/vpOLiDyhNUA?si=7ZsQSJLuoVZRFvFn
+       2. https://www.kaggle.com/code/louisong97/neural-network-approach-to-iris-dataset
+       3. https://youtu.be/6CH_j35vKAs?si=tDi_Ufcmwhr59CWP
