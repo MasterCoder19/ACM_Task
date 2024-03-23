@@ -1,0 +1,46 @@
+# Importing necessary libraries
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.datasets import load_iris
+from keras.models import Sequential
+from keras.layers import Dense
+
+# Load Iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Splitting the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Standardizing the features
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+# Encoding categorical data
+encoder = LabelEncoder()
+y_train = encoder.fit_transform(y_train)
+y_test = encoder.transform(y_test)
+
+# Building the ANN model
+model = Sequential()
+model.add(Dense(units=8, activation='relu', input_dim=4))
+model.add(Dense(units=6, activation='relu'))
+model.add(Dense(units=3, activation='softmax'))
+
+# Compiling the model
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+# Training the model
+model.fit(X_train, y_train, batch_size=5, epochs=100)
+
+# Evaluating the model
+accuracy = model.evaluate(X_test, y_test)
+print('Accuracy:', accuracy)
+
+# Make predictions
+predictions = model.predict(X_test)
+print(predictions)
