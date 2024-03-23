@@ -1,0 +1,102 @@
+# Importing necessary libraries
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.datasets import load_iris
+from keras.models import Sequential
+from keras.layers import Dense
+
+This section imports the necessary libraries:
+numpy and pandas for numerical and data manipulation.
+train_test_split from scikit-learn to split the dataset into training and testing sets.
+StandardScaler and LabelEncoder from scikit-learn for feature scaling and label encoding.
+load_iris from scikit-learn to load the Iris dataset.
+Sequential and Dense from Keras for building the ANN model.
+
+
+
+
+# Load Iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+This section loads the Iris dataset using the load_iris() function from scikit-learn and assigns the features to X and the target variable to y.
+
+
+
+
+# Splitting the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+This line splits the dataset into training and testing sets, with 80% of the data used for training (X_train and y_train) and 20% for testing (X_test and y_test). The random_state parameter ensures reproducibility.
+
+
+
+
+# Standardizing the features
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+This section standardizes the features by scaling them to have a mean of 0 and a standard deviation of 1 using StandardScaler.
+
+
+
+
+# Encoding categorical data
+encoder = LabelEncoder()
+y_train = encoder.fit_transform(y_train)
+y_test = encoder.transform(y_test)
+
+This part encodes the categorical target variable into numerical values using LabelEncoder.
+
+
+
+
+# Building the ANN model
+model = Sequential()
+model.add(Dense(units=8, activation='relu', input_dim=4))
+model.add(Dense(units=6, activation='relu'))
+model.add(Dense(units=3, activation='softmax'))
+
+This section defines the architecture of the ANN model using the Sequential API of Keras:
+It consists of three layers of densely connected neurons (Dense layers).
+The first layer has 8 neurons, ReLU activation function, and input dimension of 4 (number of features).
+The second layer has 6 neurons with ReLU activation.
+The output layer has 3 neurons with softmax activation, suitable for multi-class classification.
+
+
+
+
+# Compiling the model
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+This line compiles the model, specifying the optimizer (adam), loss function (sparse_categorical_crossentropy), and metrics to evaluate (accuracy).
+
+
+
+
+# Training the model
+model.fit(X_train, y_train, batch_size=5, epochs=100)
+
+This line trains the model using the training data (X_train and y_train) with a batch size of 5 and 100 epochs.
+
+
+
+
+# Evaluating the model
+accuracy = model.evaluate(X_test, y_test)
+print('Accuracy:', accuracy)
+
+This line evaluates the trained model on the test data and prints the accuracy.
+
+
+
+
+# Make predictions
+predictions = model.predict(X_test)
+print(predictions)
+
+This part generates predictions using the trained model on the test data and prints them.
