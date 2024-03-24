@@ -1,18 +1,20 @@
-# Importing necessary libraries
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import load_iris
+import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense
+from sklearn.linear_model import LogisticRegression
 
-This section imports the necessary libraries:
-numpy and pandas for numerical and data manipulation.
-train_test_split from scikit-learn to split the dataset into training and testing sets.
-StandardScaler and LabelEncoder from scikit-learn for feature scaling and label encoding.
-load_iris from scikit-learn to load the Iris dataset.
-Sequential and Dense from Keras for building the ANN model.
+Importing necessary libraries: 
+numpy and pandas for numerical operations and data manipulation.
+train_test_split from sklearn.model_selection to split the dataset into training and testing sets.
+StandardScaler from sklearn.preprocessing to standardize the feature data.
+load_iris from sklearn.datasets to load the Iris dataset.
+TensorFlow and Keras for building and training the neural network model.
+LogisticRegression from sklearn.linear_model for logistic regression.
 
 
 
@@ -22,6 +24,7 @@ iris = load_iris()
 X = iris.data
 y = iris.target
 
+Load the Iris dataset:
 This section loads the Iris dataset using the load_iris() function from scikit-learn and assigns the features to X and the target variable to y.
 
 
@@ -30,17 +33,8 @@ This section loads the Iris dataset using the load_iris() function from scikit-l
 # Splitting the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+Split the dataset into training and testing sets:
 This line splits the dataset into training and testing sets, with 80% of the data used for training (X_train and y_train) and 20% for testing (X_test and y_test). The random_state parameter ensures reproducibility.
-
-
-
-
-# Standardizing the features
-sc = StandardScaler()
-X_train = sc.fit_transform(X_train)
-X_test = sc.transform(X_test)
-
-This section standardizes the features by scaling them to have a mean of 0 and a standard deviation of 1 using StandardScaler.
 
 
 
@@ -55,48 +49,105 @@ This part encodes the categorical target variable into numerical values using La
 
 
 
-# Building the ANN model
-model = Sequential()
-model.add(Dense(units=8, activation='relu', input_dim=4))
-model.add(Dense(units=6, activation='relu'))
-model.add(Dense(units=3, activation='softmax'))
+# Standardizing the features data for neural network
+scaler = StandardScaler()
+X_train_nn = scaler.fit_transform(X_train)
+X_test_nn = scaler.transform(X_test)
 
+Standardize the feature data for neural network:
+This section standardizes the features for the neural network by scaling them to have a mean of 0 and a standard deviation of 1 using StandardScaler.
+
+
+
+
+
+# Defining the ANN model
+model = Sequential([
+    Dense(8, input_shape=(4,), activation='relu'),
+    Dense(8, activation='relu'),
+    Dense(3, activation='softmax')
+])
+
+Define the ANN model:
 This section defines the architecture of the ANN model using the Sequential API of Keras:
 It consists of three layers of densely connected neurons (Dense layers).
-The first layer has 8 neurons, ReLU activation function, and input dimension of 4 (number of features).
+The first layer has 8 neurons, ReLU activation function, and input shape of 4 (number of features).
 The second layer has 6 neurons with ReLU activation.
 The output layer has 3 neurons with softmax activation, suitable for multi-class classification.
 
 
 
 
-# Compiling the model
+# Compiling the ANN model
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
+Compile the ANN model:
 This line compiles the model, specifying the optimizer (adam), loss function (sparse_categorical_crossentropy), and metrics to evaluate (accuracy).
 
 
 
 
-# Training the model
+# Training the ANN model
 model.fit(X_train, y_train, batch_size=5, epochs=100)
 
+Train the ANN model:
 This line trains the model using the training data (X_train and y_train) with a batch size of 5 and 100 epochs.
 
 
 
 
-# Evaluating the model
-accuracy = model.evaluate(X_test, y_test)
-print('Accuracy:', accuracy)
+# Evaluating the ANN model
+test_loss, test_accuracy_nn = model.evaluate(X_test_nn, y_test)
+print(f"Test Accuracy (ANN): {test_accuracy_nn}")
 
-This line evaluates the trained model on the test data and prints the accuracy.
+Evaluate the ANN model:
+This line evaluates the trained ANN model on the test data and prints the accuracy.
 
 
 
 
-# Make predictions
-predictions = model.predict(X_test)
+# Make predictions for the ANN model
+predictions = model.predict(X_test_nn)
 print(predictions)
 
-This part generates predictions using the trained model on the test data and prints them.
+Make Predictions for the ANN model:
+This part generates predictions using the ANN trained model on the test data and prints them.
+
+
+
+
+# Standardize the feature data for logistic regression
+X_train_lr = scaler.fit_transform(X_train)
+X_test_lr = scaler.transform(X_test)
+
+Standardize the feature data for logistic regression:
+Here, we standardize the feature data separately for logistic regression using the same StandardScaler.
+
+
+
+
+# Create and train the logistic regression model
+logistic_model = LogisticRegression(max_iter=1000)
+logistic_model.fit(X_train_lr, y_train)
+
+Create and train the logistic regression model:
+We create a logistic regression model and train it on the standardized training data.
+
+
+
+
+# Evaluate the logistic regression model
+test_accuracy_lr = logistic_model.score(X_test_lr, y_test)
+print(f"Test Accuracy (Logistic Regression): {test_accuracy_lr}")
+
+Evaluate the logistic regression model:
+We evaluate the logistic regression model on the standardized test data and print its test accuracy.
+
+
+
+# Make predictions for the Logistic Regression Model
+predictions = model.predict(X_test_lr)
+print(predictions)
+
+Make Predictions for the Logistic Regression model:
+This part generates predictions using the LR trained model on the test data and prints them.
