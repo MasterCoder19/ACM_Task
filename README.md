@@ -36,3 +36,5 @@ Compare the performance of Logistic Regression and the ANN model based on the ch
 Links: 1. https://youtu.be/vpOLiDyhNUA?si=7ZsQSJLuoVZRFvFn
        2. https://www.kaggle.com/code/louisong97/neural-network-approach-to-iris-dataset
        3. https://youtu.be/6CH_j35vKAs?si=tDi_Ufcmwhr59CWP
+       4. https://youtu.be/VCJdg7YBbAQ?si=1dVao3oOSMgqtt7l
+       5. https://youtu.be/f3ZJbTyz_pU?si=re7ljxKlpeJ45BlY
